@@ -3,6 +3,8 @@ if( process.env.NODE_ENV !== 'production' ) {
 }
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY
+const GEO_API_KEY = process.env.GEO_API_KEY
+
 const { default: axios } = require('axios')
 const express = require('express')
 const app = express()
@@ -10,12 +12,23 @@ const app = express()
 app.use(express.json())
 app.use(express.static('public'))
 
-app.get('/weather', (req, res) => {
-    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${WEATHER_API_KEY}`
+app.post('/weather', (req, res) => {
     axios({
-        url: url,
+        method: 'get',
+        url: 'https://weatherapi-com.p.rapidapi.com/search.json',
+        params: {q: `${req.body.place}`},
+        headers: {
+            'x-rapidapi-key': `${GEO_API_KEY}`,
+            'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
+        },
         responseType: 'json'
-    }).then(data => res.json(data.data))
+    })
+    .then(function (response) {
+        console.log(response.data);
+    })
+    .catch(function (error) {
+        console.error(error);
+    });
 })
 
 app.listen(3000, () => {
