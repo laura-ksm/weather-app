@@ -23,9 +23,7 @@ app.post('/weather', (req, res) => {
         },
         responseType: 'json'
     })
-    .then(function (response) {
-        console.log(response.data);
-    })
+    .then( data => res.json(data.data) )
     .catch(function (error) {
         console.error(error);
     });
