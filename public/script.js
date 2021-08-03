@@ -3,13 +3,13 @@ const searchWrapper = document.querySelector(".search-input")
 const inputBox = searchWrapper.querySelector("input")
 const suggBox = searchWrapper.querySelector(".autocom-box")
 const icon = searchWrapper.querySelector(".icon")
-let  res = [];
+let  locations = [];
 
 // if user press any key and release
 inputBox.onkeyup = (e) =>{
-    let userData = e.target.value; //user enetered data
+    let userData = e.target.value //user enetered data
     if( !!userData ){
-        const postData = async (url, data) => {
+        const postDataLocation = async (url, data) => {
             try{
                 const response = await fetch(url, {
                     method: 'POST',
@@ -19,35 +19,55 @@ inputBox.onkeyup = (e) =>{
                     },
                     body: JSON.stringify(data)
                 });
-                res = await response.json();
-                let listRes = [];
-                listRes = res.map(data => {
-                    return data = `<li>${data.name}</li>`;
+                locations = await response.json()
+                let listRes = []
+                listRes = locations.map(data => {
+                    return data = `<li>${data.name}</li>`
                 })
-                searchWrapper.classList.add("active"); //show autocomplete box
-                suggBox.innerHTML = `<ul>${listRes.join('')}</ul>`;
+                searchWrapper.classList.add("active") //show autocomplete box
+                suggBox.innerHTML = `<ul>${listRes.join('')}</ul>`
                 
-                let allList = suggBox.querySelectorAll("li");
+                let allList = suggBox.querySelectorAll("li")
                 for (let i = 0; i < allList.length; i++) {
-                    allList[i].setAttribute("onclick", "select(this)");
+                    allList[i].setAttribute("onclick", "handleOption(this)")
                 }
 
             }catch(error){
-                console.log(error);
+                console.log(error)
             }
         }
-        postData('/weather', {place: userData})
+        postDataLocation('/location', {place: userData})
     }else{
-        searchWrapper.classList.remove("active"); //hide autocomplete box
+        searchWrapper.classList.remove("active") //hide autocomplete box
     }
 }
 
-function select(element){
+let handleOption = (element) => {
     let selectData = element.textContent
     inputBox.value = selectData
     icon.onclick = () => {
-        let currentPlace = res.filter( element => element.name === selectData )
-        console.log(currentPlace)
+        let currentPlace = locations.filter( element => element.name === selectData )
+        handleWeatherData(currentPlace)
     }
-    searchWrapper.classList.remove("active");
+    searchWrapper.classList.remove("active")
+}
+
+let handleWeatherData = (place) => {
+    const postDataWeather = async (url, data) => {
+        try{
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const currentWeather = await response.json()
+            console.log(currentWeather)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    postDataWeather('/weather', {lat: place[0].lat, lon: place[0].lon})
 }

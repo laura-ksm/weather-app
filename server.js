@@ -12,7 +12,7 @@ const app = express()
 app.use(express.json())
 app.use(express.static('public'))
 
-app.post('/weather', (req, res) => {
+app.post('/location', (req, res) => {
     axios({
         method: 'get',
         url: 'https://weatherapi-com.p.rapidapi.com/search.json',
@@ -27,6 +27,19 @@ app.post('/weather', (req, res) => {
     .catch(function (error) {
         console.error(error);
     });
+})
+
+app.post('/weather', (req, res) => {
+    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${req.body.lat}&lon=${req.body.lon}&appid=${WEATHER_API_KEY}&units=metric`
+    axios({
+        method: 'get',
+        url: url,
+        responseType: 'json'
+    })
+    .then( data => res.json(data.data) )
+    .catch(function(error) {
+        console.log(error);
+    })
 })
 
 app.listen(3000, () => {
