@@ -7,13 +7,13 @@
 }
 
 body{
-  background: #644bff;
+  background: #4073ff;
   padding: 0 20px;
 }
 
 ::selection{
-  color: #fff;
-  background: #664AFF;
+  color: #141c4d;
+  background: #f0f0f2;
 }
 
 .wrapper{
@@ -30,13 +30,13 @@ body{
 }
 
 .search-input input{
-  height: 55px;
+  height: 45px;
   width: 100%;
   outline: none;
   border: none;
   border-radius: 5px;
   padding: 0 60px 0 20px;
-  font-size: 18px;
+  font-size: 15px;
   box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
 }
 
@@ -78,15 +78,15 @@ body{
   position: absolute;
   right: 0px;
   top: 0px;
-  height: 55px;
-  width: 55px;
+  height: 45px;
+  width: 45px;
   text-align: center;
-  line-height: 55px;
+  line-height: 45px;
   font-size: 20px;
-  color: #644bff;
+  color: #B8B8B8;
   cursor: pointer;
 }
 
 .blurb-api {
-  float: right;
+  text-align: center;
 }
