@@ -64,10 +64,17 @@ let handleWeatherData = (place) => {
                 body: JSON.stringify(data)
             });
             const currentWeather = await response.json()
-            console.log(currentWeather)
+            handleProperties(currentWeather)
         } catch (error) {
             console.log(error)
         }
     }
     postDataWeather('/weather', {lat: place[0].lat, lon: place[0].lon})
+}
+
+let handleProperties = currentWeather => {
+    console.log(currentWeather)
+    let locationIcon = document.querySelector('.weather-icon')
+    let icon = currentWeather.weather[0].icon
+    locationIcon.innerHTML = `<img src="http://openweathermap.org/img/wn/${icon}.png">`
 }

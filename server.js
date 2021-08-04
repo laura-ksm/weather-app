@@ -8,6 +8,7 @@ const GEO_API_KEY = process.env.GEO_API_KEY
 const { default: axios } = require('axios')
 const express = require('express')
 const app = express()
+const port = 3000;
 
 app.use(express.json())
 app.use(express.static('public'))
@@ -42,6 +43,6 @@ app.post('/weather', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Server started')
 })
